@@ -32,10 +32,10 @@
 
 - name: Sync cobbler
   command: cobbler sync
+  changed_when: false
 
 - name: Enable services
   service: name={{item}} state=started enabled=yes
   with_items:
     - xinetd
 
-# iptables
