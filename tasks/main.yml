@@ -1,0 +1,41 @@
+---
+
+- name: Install cobbler
+  yum: name={{item}} state=present
+  with_items:
+    - cobbler
+    - dnsmasq
+    - ansible
+    - python-argparse
+
+- name: Enable services
+  service: name={{item}} state=started enabled=yes
+  with_items:
+    - httpd
+    - cobblerd
+
+- name: Setup cobbler
+  template: src=settings.j2 dest=/etc/cobbler/settings  owner=root group=root mode=0644
+  notify: restart cobbler
+
+- name: Setup cobbler dhcp
+  template: src=dnsmasq.template.j2 dest=/etc/cobbler/dnsmasq.template  owner=root group=root mode=0644
+  notify: restart cobbler
+
+- name: Setup cobbler modules
+  template: src=modules.conf.j2 dest=/etc/cobbler/modules.conf  owner=root group=root mode=0644
+  notify: restart cobbler
+
+- name: Setup cobbler inventory plugin for ansible
+  template: src=cobbler.ini.j2 dest=/etc/ansible/cobbler.ini owner=root group=root mode=0644
+  notify: restart cobbler
+
+- name: Sync cobbler
+  command: cobbler sync
+
+- name: Enable services
+  service: name={{item}} state=started enabled=yes
+  with_items:
+    - xinetd
+
+# iptables

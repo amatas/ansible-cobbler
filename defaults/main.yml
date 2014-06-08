@@ -1,0 +1,13 @@
+---
+
+cobbler_root_default_password: $1$zlUesdcC$0TeHft5VZZr/BqlHlaTLM/
+cobbler_server: 192.168.50.2
+cobbler_next_server: "{{cobbler_server}}"
+cobbler_manage_dhcp: 1
+cobbler_restart_dhcp: 1
+
+cobbler_dhcp_start_ip: 192.168.50.10
+cobbler_dhcp_end_ip: 192.168.50.100
+
+cobbler_dns_module: manage_dnsmasq
+cobbler_dhcp_module: manage_dnsmasq

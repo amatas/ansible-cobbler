@@ -1,0 +1,8 @@
+---
+
+- name: restart cobbler
+  command: cobbler sync
+  notify: restart cobblerd
+
+- name: restart cobblerd
+  service: name=cobblerd state=restarted
